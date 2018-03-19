@@ -2,6 +2,8 @@
     "presets": ["react"],
     "plugins": [
         "transform-object-rest-spread",
-        "syntax-dynamic-import"
+        "syntax-dynamic-import",
+
+        ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
     ]
 }

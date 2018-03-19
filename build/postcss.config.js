@@ -1,6 +1,6 @@
 module.exports = {
     // parser: 'sugarss',
-    sourceMap: true,
+    // sourceMap: true,
     ident: 'postcss',
     plugins: (loader) => [
         require('autoprefixer')({

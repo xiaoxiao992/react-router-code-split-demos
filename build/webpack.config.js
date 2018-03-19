@@ -33,7 +33,7 @@ module.exports = {
     },
     output: {
         path: resolve("dist"),
-        filename: '[name].js',
+        filename: 'js/[name].[hash].js',
         publicPath: ''
     },
     resolve: {
@@ -73,7 +73,7 @@ module.exports = {
                     use: [{
                             loader: "css-loader",
                             options: {
-                                sourceMap: true,
+                                // sourceMap: true,
                                 importLoaders: 2 // 前面有几个loader
                             }
                         },
@@ -84,7 +84,7 @@ module.exports = {
                         {
                             loader: "less-loader",
                             options: {
-                                sourceMap: true,
+                                // sourceMap: true,
                             }
                         }
                     ]
@@ -96,7 +96,7 @@ module.exports = {
                     use: [{
                             loader: "css-loader",
                             options: {
-                                sourceMap: true,
+                                // sourceMap: true,
                                 importLoaders: 1
                             }
                         },
@@ -110,7 +110,13 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin({ filename: "css/[name].[contenthash:7].css" }),
+        new ExtractTextPlugin({
+            filename: "css/[name].[contenthash:7].css",
+            // Extract from all additional chunks too (by default it extracts only from the initial chunk(s))
+            // When using CommonsChunkPlugin and there are extracted chunks (from ExtractTextPlugin.extract) in the commons chunk, allChunks must be set to true
+            // 默认的只会合并初始的模块内的样式，如果使用CommonsChunkPlugin，想要把后续添加的模块中的样式也添加进来，则allChunks必须设为true
+            // allChunks: true,
+        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/index.html',
@@ -122,13 +128,16 @@ module.exports = {
             // minChunks: 2,
             minChunks: function(module, count) {
                 // any required modules inside node_modules are extracted to vendor
-                return (
+
+                const b = (
                     module.resource &&
                     /\.js$/.test(module.resource) &&
                     module.resource.indexOf(
                         path.join(__dirname, '../node_modules')
                     ) === 0
-                )
+                );
+                console.log("module.resource", b, module.resource);
+                return b;
             }
         }),
         // extract webpack runtime and module manifest to its own file in order to
