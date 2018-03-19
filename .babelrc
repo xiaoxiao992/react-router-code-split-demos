@@ -1,0 +1,7 @@
+﻿{
+    "presets": ["react"],
+    "plugins": [
+        "transform-object-rest-spread",
+        "syntax-dynamic-import"
+    ]
+}
