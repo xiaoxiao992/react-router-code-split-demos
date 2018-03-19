@@ -5,6 +5,7 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 import './app.css';
 import './app.less';
+// import 'antd/dist/antd.less';
 // import {
 //     Index, User
 // } from "./routers";

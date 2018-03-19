@@ -115,7 +115,7 @@ module.exports = {
             // Extract from all additional chunks too (by default it extracts only from the initial chunk(s))
             // When using CommonsChunkPlugin and there are extracted chunks (from ExtractTextPlugin.extract) in the commons chunk, allChunks must be set to true
             // 默认的只会合并初始的模块内的样式，如果使用CommonsChunkPlugin，想要把后续添加的模块中的样式也添加进来，则allChunks必须设为true
-            // allChunks: true,
+            allChunks: true,
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',

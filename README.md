@@ -34,7 +34,7 @@ export default class User extends React.Component {
 需要注意的是，当使用代码拆分，extract-text-webpack-plugin 只会合并入口文件中引入的样式，其他模块中的样式将不会被合并。只有当**allChunks: true**时才会把其他模块引入的样式合并进来，此时样式是没法实现按需加载的。
 ### 关于 babel-plugin-import 配置
 ```["import", { "libraryName": "antd" }]```: 只引入js文件， 需要在入口文件引入antd样式，import 'antd/dist/antd.css'；
-```["import", { "libraryName": "antd", "style": true }]```:  引入js和(less/sass)文件，这个可以配置less 参数，可以改变样式主题；
+```["import", { "libraryName": "antd", "style": true }]```:  引入js和(less/sass)文件，这个可以配置less参数，可以改变样式主题；
 ```["import", { "libraryName": "antd", "style": "css" }]```: 引入js和css文件，这个因为引入的是编译好的css文件，所不能更改主题；
 
 
