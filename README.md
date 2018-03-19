@@ -22,19 +22,16 @@ export default class User extends React.Component {
     }
 };
 ```
-实现 code split 请参考 [code-splitting](https://reacttraining.com/react-router/web/guides/code-splitting)
-
-注意是 babel-plugin-syntax-dynamic-import 和 react-loadable 都同时要的。
+实现 code split 请参考 [code-splitting](https://reacttraining.com/react-router/web/guides/code-splitting)     
+注意： babel-plugin-syntax-dynamic-import 和 react-loadable 都要的引入。
 
 ### 关于antd的按需加载
-
-实现按需加载需要使用 babel-plugin-import 实现；
-
+实现按需加载需要使用 babel-plugin-import 实现；  
 需要注意的是，当使用代码拆分，extract-text-webpack-plugin 只会合并入口文件中引入的样式，其他模块中的样式将不会被合并。只有当**allChunks: true**时才会把其他模块引入的样式合并进来，此时样式是没法实现按需加载的。
 ### 关于 babel-plugin-import 配置
 ```["import", { "libraryName": "antd" }]```: 只引入js文件， 需要在入口文件引入antd样式，import 'antd/dist/antd.css'；
 ```["import", { "libraryName": "antd", "style": true }]```:  引入js和(less/sass)文件，这个可以配置less 参数，可以改变样式主题；
-```["import", { "libraryName": "antd", "style": "css" }]```: 引入js和css文件，这个因为引入的是编译好的css文件，所不能更改主题；
-
+```["import", { "libraryName": "antd", "style": "css" }]```: 引入js和css文件，这个因为引入的是编译好的css文件，所不能更改主题；   
+``` 注意，babel-plugin-import 的 style 属性除了引入对应组件的样式，也会引入一些必要的全局样式。如果你不需要它们，建议不要使用此属性。你可以 import 'antd/dist/antd.css 手动引入，并覆盖全局样式。```
 
 
