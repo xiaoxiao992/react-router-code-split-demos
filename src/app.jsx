@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 // import Loadable from 'react-loadable';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
+// import 'antd/dist/antd.less';
 import './app.css';
 import './app.less';
-// import 'antd/dist/antd.less';
+
 // import {
 //     Index, User
 // } from "./routers";

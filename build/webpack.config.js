@@ -5,6 +5,7 @@ const webpack = require("webpack");
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const postcssOptions = require("./postcss.config");
 //  {
 //     sourceMap: true,
@@ -28,13 +29,13 @@ function resolve(dir) {
 module.exports = {
     name: "main",
     entry: {
-        app: ['./src/app'],
+        app: ['webpack-hot-middleware/client', './src/app'],
         // app: ['babel-polyfill', './src/main'],
     },
     output: {
         path: resolve("dist"),
         filename: 'js/[name].[hash].js',
-        publicPath: ''
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.js', '.jsx', '.json'],
@@ -110,6 +111,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(['dist']),
         new ExtractTextPlugin({
             filename: "css/[name].[contenthash:7].css",
             // Extract from all additional chunks too (by default it extracts only from the initial chunk(s))
@@ -146,5 +148,9 @@ module.exports = {
             name: 'manifest',
             chunks: ['vendor']
         }),
+        // webpack-hot-middleware 配置
+        new webpack.HotModuleReplacementPlugin(),
+        // Use NoErrorsPlugin for webpack 1.x
+        new webpack.NoEmitOnErrorsPlugin()
     ]
 }
