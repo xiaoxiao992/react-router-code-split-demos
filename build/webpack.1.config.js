@@ -27,15 +27,14 @@ function resolve(dir) {
 }
 
 module.exports = {
-    name: "main",
+    name: "main1",
     entry: {
-        // app: ['webpack-hot-middleware/client?reload=true&name=main', './src/app'],
-        app: ['./src/app'],
+        app: ['./src1/app'],
         // app: ['babel-polyfill', './src/main'],
     },
     output: {
         path: resolve("dist"),
-        filename: 'js/[name].[hash].js',
+        filename: '1/js/[name].[hash].js',
         publicPath: '/'
     },
     resolve: {
@@ -58,7 +57,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 1024, //文件小于1kb 转成Data URL
-                    name: 'img/[name].[hash:7].[ext]'
+                    name: '1/img/[name].[hash:7].[ext]'
                 }
             },
             {
@@ -66,7 +65,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 1024, //小于1kb 转成Data URL
-                    name: 'fonts/[name].[hash:7].[ext]'
+                    name: '1/fonts/[name].[hash:7].[ext]'
                 }
             }, {
                 test: /\.less$/,
@@ -114,15 +113,15 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new ExtractTextPlugin({
-            filename: "css/[name].[contenthash:7].css",
+            filename: "1/css/[name].[contenthash:7].css",
             // Extract from all additional chunks too (by default it extracts only from the initial chunk(s))
             // When using CommonsChunkPlugin and there are extracted chunks (from ExtractTextPlugin.extract) in the commons chunk, allChunks must be set to true
             // 默认的只会合并初始的模块内的样式，如果使用CommonsChunkPlugin，想要把后续添加的模块中的样式也添加进来，则allChunks必须设为true
             allChunks: true,
         }),
         new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: './src/index.html',
+            filename: 'index1.html',
+            template: './src1/index.html',
             inject: true,
             excludeChunks: ['login', 'flow']
         }),

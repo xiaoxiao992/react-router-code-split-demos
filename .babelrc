@@ -4,6 +4,6 @@
         "transform-object-rest-spread",
         "syntax-dynamic-import",
 
-        ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
+        ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }]
     ]
 }

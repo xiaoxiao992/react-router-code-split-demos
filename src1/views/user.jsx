@@ -14,8 +14,8 @@ export default class User extends React.Component {
 
     render() {
         return (
-            <div>这是User
-                <Button type="primary">确定00990</Button>
+            <div>这是001User
+                <Button type="primary">确定900d</Button>
                 <Input />
                 <Link to="/user/input" >新增</Link>
                 <UserProfile />

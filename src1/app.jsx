@@ -4,8 +4,6 @@ import ReactDOM from 'react-dom';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 // import 'antd/dist/antd.less';
-import 'antd/es/style/index.less';
-// E:\githubs\react-router-code-split-demo\node_modules\antd\es\style\index.less
 import './app.css';
 import './app.less';
 
