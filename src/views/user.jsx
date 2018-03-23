@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
 import UserProfile from './UserProfile';
-import { Button,Input } from 'antd';
+import { Button, Input } from 'antd';
 // import { UserInput } from '../routers';
 import AsyncLoader from '../routers/AsyncLoader';
 const AsyncUserInput = AsyncLoader({ loader: () => import('./UserInput') });

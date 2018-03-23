@@ -23,7 +23,7 @@ webpackConfigs.forEach((config, index) => {
     // webpackDevMiddleware @2 的配置
     const devMiddlewareInstance = webpackDevMiddleware(compiler, {
         // quiet: false,
-        logLevel: 'silent', // silent // error
+        logLevel: 'error', // silent // error
         publicPath: config.output.publicPath
     });
 
@@ -43,7 +43,7 @@ webpackConfigs.forEach((config, index) => {
 
     app.use(devMiddlewareInstance, HotMiddlewareInstance);
 
-    devMiddlewareInstance.waitUntilValid(() => { console.log("编译完成"); })
+devMiddlewareInstance.waitUntilValid(() => { /*console.log("编译完成"); */})
 
     // if (index === webpackConfigs.length) {
 
