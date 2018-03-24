@@ -13,7 +13,7 @@ import './app.less';
 //     Index, User
 // } from "./routers";
 import AsyncLoader from './routers/AsyncLoader';
-const AsyncUser = AsyncLoader({ loader: () => import('./views/user') });
+// const AsyncUser = AsyncLoader({ loader: () => import('./views/user') });
 const AsyncIndex = AsyncLoader({ loader: () => import('./views/index') });
 
 class App extends React.Component {
@@ -31,8 +31,8 @@ class App extends React.Component {
         return (
             <Router>
                 <Switch>
-                    <Route path="/user" exact={false} component={AsyncUser} />
-                    <Route path="/" exact={true} component={AsyncIndex} />
+                    {/* <Route path="/user" exact={false} component={AsyncUser} /> */}
+                    <Route path="/" exact={false} component={AsyncIndex} />
                     <Redirect to="/" />
                 </Switch>
             </Router>
