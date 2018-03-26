@@ -1,8 +1,18 @@
 import React, { Component } from 'react'
-import Container from './Container'
+import Container from './Container';
+import CustomDragLayer from '../CustomDragLayer/CustomDragLayer';
 
 export default class SortableSimple extends Component {
+    constructor(props) {
+        super(props)
+        // this.state = {
+        //     snapToGridAfterDrop: false,
+        //     snapToGridWhileDragging: false,
+        // }
+    }
+
     render() {
+        // const { snapToGridAfterDrop, snapToGridWhileDragging } = this.state
         return (
             <div>
                 {/* <p>
@@ -18,6 +28,8 @@ export default class SortableSimple extends Component {
 					the data in the <code>hover</code> handler.
 				</p>
                 <Container />
+                <CustomDragLayer snapToGrid={false} />
+                {/* <CustomDragLayer snapToGrid={snapToGridWhileDragging} /> */}
             </div>
         )
     }

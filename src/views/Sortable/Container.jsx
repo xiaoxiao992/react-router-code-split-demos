@@ -10,7 +10,7 @@ import styles from './index.less';
 // 	width: 400,
 // }
 
-@DragDropContext(HTML5Backend)
+// @DragDropContext(HTML5Backend)
 export default class Container extends Component {
 	constructor(props) {
 		super(props)
