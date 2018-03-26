@@ -6,6 +6,15 @@ import { Button, Input } from 'antd';
 import AsyncLoader from '../routers/AsyncLoader';
 const AsyncUserInput = AsyncLoader({ loader: () => import('./UserInput') });
 
+
+
+// @DragLayer(monitor => ({
+//     item: monitor.getItem(),
+//     itemType: monitor.getItemType(),
+//     initialOffset: monitor.getInitialSourceClientOffset(),
+//     currentOffset: monitor.getSourceClientOffset(),
+//     isDragging: monitor.isDragging(),
+// }))
 export default class User extends React.Component {
 
     constructor(props) {
