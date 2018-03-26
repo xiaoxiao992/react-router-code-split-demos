@@ -3,26 +3,44 @@ import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import ItemTypes from './ItemTypes'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 
 const style = {
     border: '1px dashed gray',
-    padding: '2.5rem 1rem',
+    padding: '4.5rem 1rem',
     marginBottom: '.5rem',
     backgroundColor: 'white',
     cursor: 'move',
+    transition: 'all 1s linear'
 }
 
 const cardSource = {
-    beginDrag(props) {
-        console.log('beginDrag', props);
+    beginDrag(props, monitor, component) {
+        console.log('beginDrag', component);
+        const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
         return {
             id: props.id,
             index: props.index,
+            title: props.text,
+            width: hoverBoundingRect.width,
+            height: hoverBoundingRect.height
         }
     },
+    // isDragging() {
+    //     console.log("isDragging");
+    // }
+    endDrag(props, monitor, component) {
+        console.log("endDrag", component);
+    }
 }
 
 const cardTarget = {
+    // drop(props, monitor, component) {
+    //     console.log("cardTarget", 'drop');
+    //     const element = findDOMNode(component);
+    //     element.style.transform = "translate(0,0)";
+    //     element.style.transition = 'translate 0s linear';
+    // },
     hover(props, monitor, component) {
         const dragIndex = monitor.getItem().index
         const hoverIndex = props.index
@@ -32,15 +50,30 @@ const cardTarget = {
             return
         }
 
-        // Determine rectangle on screen
-        const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
+        const element = findDOMNode(component);
+
+
+        // Determine rectangle on screen 当前目标的位置
+        const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
 
         // Get vertical middle
-        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) * .8;
 
         // Determine mouse position
-        const clientOffset = monitor.getClientOffset()
+        const clientOffset = monitor.getClientOffset(); // 当前鼠标的位置；
+        // const initialClientOffset = monitor.getInitialClientOffset();
+        // const sourceClientOffset = monitor.getSourceClientOffset();
+        // const differenceFromInitialOffset = monitor.getDifferenceFromInitialOffset();
 
+        // console.log("cardTarget", dragIndex, hoverIndex, clientOffset, hoverBoundingRect, sourceClientOffset, monitor.getInitialClientOffset());
+
+        const translateY = Math.abs(hoverBoundingRect.y - clientOffset.y) - ((dragIndex > hoverIndex) ? hoverBoundingRect.height : 0);
+
+        console.log('translateY', translateY, hoverBoundingRect.y, clientOffset.y, hoverBoundingRect.height)
+
+        element.style.transition = 'translate 10s linear';
+        element.style.transform = `translate(0,${-translateY}px)`;
+        element.style.backgroundColor = "gray"
         // Get pixels to the top
         const hoverClientY = clientOffset.y - hoverBoundingRect.top
 
@@ -58,8 +91,11 @@ const cardTarget = {
             return
         }
 
+        element.style.transform = `translate(0,0)`;
+        element.style.transition = 'translate 0s linear';
         // Time to actually perform the action
         props.moveCard(dragIndex, hoverIndex)
+
 
         // Note: we're mutating the monitor item here!
         // Generally it's better to avoid mutations,
@@ -69,11 +105,16 @@ const cardTarget = {
     },
 }
 
-@DropTarget(ItemTypes.CARD, cardTarget, connect => ({
+@DropTarget(ItemTypes.CARD, cardTarget, (connect, monitor) => ({
+    // connectDropTarget: connect.dropTarget(),
     connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
+    canDrop: monitor.canDrop(),
+    draggingColor: monitor.getItemType(),
 }))
 @DragSource(ItemTypes.CARD, cardSource, (connect, monitor) => ({
     connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging(),
 }))
 export default class Card extends Component {
@@ -87,23 +128,49 @@ export default class Card extends Component {
         moveCard: PropTypes.func.isRequired,
     }
 
+    componentDidMount() {
+        // Use empty image as a drag preview so browsers don't draw it
+        // and we can draw whatever we want on the custom drag layer instead.
+        // console.log('dddd', getEmptyImage())
+        this.props.connectDragPreview(getEmptyImage(), {
+            // IE fallback: specify that we'd rather screenshot the node
+            // when it already knows it's being dragged so we can hide it with CSS.
+            captureDraggingState: true,
+        })
+    }
+
     render() {
         const {
             text,
             isDragging,
             connectDragSource,
             connectDropTarget,
+            isOver,
+            id,
         } = this.props
         const opacity = isDragging ? .6 : 1;
         if (isDragging) {
-            style.backgroundColor = "red"
+            // style.backgroundColor = "red";
+            // style.visibility = "hidden";
         } else {
             style.backgroundColor = "white"
+            // style.visibility = "visible";
         }
-        // console.log('this.ssss', this.props);
+
+        // style.transform = "translate(0,0)";
+        // if (!isOver) {
+        //     // style.transform = "translate(0,0)"
+        // }
+
+        // if (isOver) {
+        //     style.transform = isOver === true ? 'translate(0,0)' : "translate(0,0)"
+        // }
+        // const m = { transform: (isOver && isOver === true) ? null : "translate(0,0)" }
+
+        // console.log('this.ssss', isOver, isOver === true, this.props);
 
         return connectDragSource(
-            connectDropTarget(<div style={{ ...style, }}>{text}</div>),
+            connectDropTarget(<div data={id} style={{ ...style, opacity }}>{text}</div>),
         )
     }
 }
