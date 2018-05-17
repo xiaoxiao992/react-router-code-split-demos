@@ -14,7 +14,7 @@ export default class UserProfile extends React.Component {
 
     render() {
         return (
-            <div>这是UserProfile</div>
+            <p>这是UserProfile</p>
         )
     }
 };

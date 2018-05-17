@@ -1,10 +1,10 @@
-import React from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
-import UserProfile from './UserProfile';
 import { Button, Input } from 'antd';
+import React from 'react';
+import { Link, Route, Switch } from 'react-router-dom';
 // import { UserInput } from '../routers';
 import AsyncLoader from '../routers/AsyncLoader';
-const AsyncUserInput = AsyncLoader({ loader: () => import('./UserInput') });
+import UserProfile from './UserProfile';
+const UserInputAsync = AsyncLoader({ loader: () => import('./UserInput') });
 
 export default class User extends React.Component {
 
@@ -14,15 +14,17 @@ export default class User extends React.Component {
 
     render() {
         return (
-            <div>这是User
-                <Button type="primary">确定00990</Button>
-                <Input />
-                <Link to="/user/input" >新增</Link>
+            <div>
+                <p>这是User</p>
+                <p><Button type="primary">确定</Button></p>
+                <p> <Input /></p>
+                <p><Link to="/user/input" >新增</Link></p>
+
                 <UserProfile />
                 <Switch>
-                    <Route path="/user/input" exact={true} component={AsyncUserInput} />
+                    <Route path="/user/input" exact={true} component={UserInputAsync} />
                 </Switch>
-            </div>
+            </div >
         )
     }
 };
