@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import AsyncLoader from '../routers/AsyncLoader';
 // import HTML5Backend from 'react-dnd-html5-backend';
 // import { DragDropContextProvider } from 'react-dnd';
 const UserAsync = AsyncLoader({ loader: () => import('./user') });
 
-
-export default class HomeIndex extends React.Component {
+class HomeIndex extends React.Component {
 
   constructor(props) {
     super(props);
@@ -15,7 +15,10 @@ export default class HomeIndex extends React.Component {
   }
 
   componentDidMount() {
-
+    const { dispatch, actions } = this.props;
+    const params = { name: 'sds' };
+    dispatch(actions.fetchUser(params))
+    // this.props.dispatch({ type: "user/list" });
   }
 
   render() {
@@ -31,3 +34,7 @@ export default class HomeIndex extends React.Component {
     )
   }
 };
+
+export default connect(state => ({
+  user: state.user
+}))(HomeIndex);

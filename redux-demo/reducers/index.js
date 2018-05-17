@@ -11,11 +11,23 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  // console.log("Test", action.type, action);
+  console.log("reducers", action.type, action);
 
   switch (action.type) {
-    case 'FETCH_THING':
-      console.log('FETCH_THING', action)
+    case 'user/list':
+      return {
+        type: 'user/list1',
+        payload: () => new Promise((resolve, reject) => {
+
+          setTimeout(resolve, 900, [
+            { name: 'admin', age: 18 },
+            { name: 'xiaohua', age: 20 }
+          ]);
+
+        })
+      }
+
+
       break;
 
     default:
