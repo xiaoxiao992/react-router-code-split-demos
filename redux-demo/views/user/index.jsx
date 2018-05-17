@@ -1,11 +1,11 @@
-import { Button, Input } from 'antd';
 import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Route, Link, Switch } from 'react-router-dom';
+// import UserProfile from './UserProfile';
+import { Button, Input } from 'antd';
 // import { UserInput } from '../routers';
-import AsyncLoader from '../routers/AsyncLoader';
-import UserProfile from './UserProfile';
-const UserInputAsync = AsyncLoader({ loader: () => import('./UserInput') });
-
+import AsyncLoader from '@/routers/AsyncLoader';
+const UserInputAsync = AsyncLoader({ loader: () => import('./Input') });
+const UserProfileAsync = AsyncLoader({ loader: () => import('./Profile') });
 
 
 // @DragLayer(monitor => ({
@@ -24,16 +24,18 @@ export default class User extends React.Component {
     render() {
         return (
             <div>
-                <p>这是User</p>
+                <p>这是 User</p>
                 <p><Button type="primary">确定</Button></p>
-                <p> <Input /></p>
+                <p><Input /></p>
                 <p><Link to="/user/input" >新增</Link></p>
+                {/* <p><UserProfile /></p> */}
 
-                <UserProfile />
                 <Switch>
                     <Route path="/user/input" exact={true} component={UserInputAsync} />
+                    <Route exact={true} component={UserProfileAsync} />
+
                 </Switch>
-            </div >
+            </div>
         )
     }
 };

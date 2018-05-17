@@ -2,6 +2,7 @@ module.exports = {
     // parser: 'sugarss',
     // sourceMap: true,
     ident: 'postcss',
+    // happypack 只接受纯对象，所以改成这样子
     plugins: {
         'autoprefixer': {
             browsers: [
