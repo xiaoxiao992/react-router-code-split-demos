@@ -38,3 +38,6 @@ antd 按需加载后会引入一些必要的全局样式，会把站点设置的
 目前解决的办法是在站点入口文件中先引入```antd/es/style/index.less```，再引入站点全局样式。   
 
 在入口文件中不引入 node_modules 中的模块会不会把该模块引入vendor中
+
+# 先优化 actions， 先把 action 分离出来
+# 其次再把 reducer 分离出来
