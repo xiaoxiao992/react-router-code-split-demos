@@ -19,9 +19,9 @@ function resolve(dir) {
 }
 
 module.exports = {
-  name: "main",
+  name: "redux",
   entry: {
-    app: ['babel-polyfill', './src/app'],
+    app: ['babel-polyfill', './redux-demo/app'],
   },
   output: {
     path: resolve("dist"),
@@ -31,7 +31,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     alias: {
-      '@': resolve('src'),
+      '@': resolve('redux-demo'),
       // 'antd': resolve('src/assets/antd'),
       // 'api': resolve('src/api'),
       // 'jstree': resolve('src/assets/jstree/src/jstree'),
@@ -40,7 +40,7 @@ module.exports = {
   module: {
     rules: [{
         test: /\.(js|jsx)$/,
-        include: [resolve('src')],
+        include: [resolve('redux-demo')],
         // loader: 'babel-loader',
         use: [`happypack/loader?id=happybabel`]
 
@@ -51,7 +51,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 1024, //文件小于1kb 转成Data URL
-          name: 'img/[name].[hash:7].[ext]'
+          name: 'redux/img/[name].[hash:7].[ext]'
         }
       },
       // url-loader
@@ -60,13 +60,13 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 1024, //小于1kb 转成Data URL
-          name: 'fonts/[name].[hash:7].[ext]'
+          name: 'redux/fonts/[name].[hash:7].[ext]'
         }
       },
       // less
       {
         test: /\.less$/,
-        exclude: /src/,
+        exclude: /redux-demo/,
         include: [/node_modules/],
         use: [`happypack/loader?id=less1`]
       },
@@ -74,7 +74,7 @@ module.exports = {
       {
         test: /\.less$/,
         exclude: /node_modules/,
-        include: [/src/],
+        include: [/redux-demo/],
         use: [`happypack/loader?id=less2`]
       },
       // less
@@ -188,7 +188,7 @@ module.exports = {
 
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './src/index.html',
+      template: './redux-demo/index.html',
       inject: true,
       excludeChunks: ['login', 'flow']
     }),

@@ -2,7 +2,12 @@
     'use strict';
     require('eventsource-polyfill');
 
-    const options = Object.assign({ reload: true }, require('querystring').parse(__resourceQuery.slice(1)));
+    const options = require('querystring').parse(__resourceQuery.slice(1));
+
+    // 这里还没引入babel-polyfill，所以不能使用es6语法
+    if (!('reload' in options)) {
+        options.reload = true;
+    }
 
     // autoConnect=false 设置自动连接为手动连接，以改变client的参数；
     const WebpackHotMiddlewareClient = require('webpack-hot-middleware/client?autoConnect=false&reload=true');

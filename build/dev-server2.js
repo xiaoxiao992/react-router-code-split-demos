@@ -4,8 +4,8 @@ const WebpackDevMiddleware = require('webpack-dev-middleware');
 const WebpackHotMiddleware = require('webpack-hot-middleware');
 
 const app = express();
-const config0 = require('./webpack.config.js');
-const config1 = require('./webpack.1.config.js');
+const config0 = require('./redux.dev.js');
+// const config1 = require('./webpack.1.config.js');
 
 const webpackConfigs = [config0];
 // const hotClientScript = 'webpack-hot-middleware/client?reload=true';
@@ -50,7 +50,7 @@ webpackConfigs.forEach((config, index) => {
 
 });
 
-// Serve the files on port 7023.
-app.listen(7023, function() {
-  console.log('Example app listening on port 7023!\n');
+// Serve the files on port 7026.
+app.listen(7026, function() {
+  console.log('Example app listening on port 7026!\n');
 });
