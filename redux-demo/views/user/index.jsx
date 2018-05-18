@@ -1,24 +1,21 @@
 import React from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
-// import UserProfile from './UserProfile';
 import { Button, Input } from 'antd';
-// import { UserInput } from '../routers';
+
+
 import AsyncLoader from '@/routers/AsyncLoader';
 const UserInputAsync = AsyncLoader({ loader: () => import('./Input') });
 const UserProfileAsync = AsyncLoader({ loader: () => import('./Profile') });
 
 
-// @DragLayer(monitor => ({
-//     item: monitor.getItem(),
-//     itemType: monitor.getItemType(),
-//     initialOffset: monitor.getInitialSourceClientOffset(),
-//     currentOffset: monitor.getSourceClientOffset(),
-//     isDragging: monitor.isDragging(),
-// }))
 export default class User extends React.Component {
 
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+
     }
 
     render() {

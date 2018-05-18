@@ -22,7 +22,7 @@ const IndexAsync = AsyncLoader({ loader: () => import('./views/index') });
 
 const middlewares = [
   thunk,
-  promiseMiddleware(),
+  promiseMiddleware({ promiseTypeDelimiter: "/" }),
   // asyncMiddleware
 ];
 const initialState = {};
