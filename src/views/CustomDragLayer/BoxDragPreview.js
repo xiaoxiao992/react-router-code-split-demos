@@ -5,8 +5,8 @@ import Box from './Box'
 
 const styles = {
 	display: 'inline-block',
-	transform: 'rotate(-7deg)',
-	WebkitTransform: 'rotate(-7deg)',
+	// transform: 'rotate(-7deg)',
+	// WebkitTransform: 'rotate(-7deg)',
 }
 
 export default class BoxDragPreview extends Component {
@@ -39,12 +39,13 @@ export default class BoxDragPreview extends Component {
 	}
 
 	render() {
-		const { title } = this.props
-		const { tickTock } = this.state
+		const { title ,item:{width,height}} = this.props
+		const { tickTock } = this.state;
+		const doc= {width,height};
 
 		return (
 			<div style={styles}>
-				<Box title={title} yellow={tickTock} />
+				<Box {...doc} title={title} yellow={tickTock} />
 			</div>
 		)
 	}

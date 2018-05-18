@@ -46,6 +46,18 @@ export default class Container extends Component {
 					id: 7,
 					text: 'PROFIT',
 				},
+				{
+					id: 8,
+					text: 'PROFIT',
+				},
+				{
+					id: 9,
+					text: 'PROFIT',
+				},
+				{
+					id: 10,
+					text: 'PROFIT',
+				},
 			],
 		}
 	}

@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 // import Loadable from 'react-loadable';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+// import { b } from './test';
+import b from './b';
 
 // import 'antd/dist/antd.less';
 import 'antd/es/style/index.less';
@@ -20,7 +22,7 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-
+        console.log(b);
     }
 
     componentDidMount() {

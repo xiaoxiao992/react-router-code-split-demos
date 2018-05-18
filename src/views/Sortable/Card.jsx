@@ -16,14 +16,19 @@ const style = {
 
 const cardSource = {
     beginDrag(props, monitor, component) {
-        console.log('beginDrag', component);
+        // console.log('beginDrag', component);
         const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+        console.log('beginDrag', hoverBoundingRect);
+        // 返回当前拖拽对象的信息；
+        // 这里return的数据将被用在 moniter.getItem();
         return {
             id: props.id,
             index: props.index,
             title: props.text,
             width: hoverBoundingRect.width,
-            height: hoverBoundingRect.height
+            height: hoverBoundingRect.height,
+            left: hoverBoundingRect.left,
+            top: hoverBoundingRect.top
         }
     },
     // isDragging() {
@@ -50,7 +55,7 @@ const cardTarget = {
             return
         }
 
-        const element = findDOMNode(component);
+        // const element = findDOMNode(component);
 
 
         // Determine rectangle on screen 当前目标的位置
@@ -69,11 +74,11 @@ const cardTarget = {
 
         const translateY = Math.abs(hoverBoundingRect.y - clientOffset.y) - ((dragIndex > hoverIndex) ? hoverBoundingRect.height : 0);
 
-        console.log('translateY', translateY, hoverBoundingRect.y, clientOffset.y, hoverBoundingRect.height)
+        // console.log('translateY', translateY, hoverBoundingRect.y, clientOffset.y, hoverBoundingRect.height)
 
-        element.style.transition = 'translate 10s linear';
-        element.style.transform = `translate(0,${-translateY}px)`;
-        element.style.backgroundColor = "gray"
+        // element.style.transition = 'translate 10s linear';
+        // element.style.transform = `translate(0,${-translateY}px)`;
+        // element.style.backgroundColor = "gray"
         // Get pixels to the top
         const hoverClientY = clientOffset.y - hoverBoundingRect.top
 
@@ -91,8 +96,8 @@ const cardTarget = {
             return
         }
 
-        element.style.transform = `translate(0,0)`;
-        element.style.transition = 'translate 0s linear';
+        // element.style.transform = `translate(0,0)`;
+        // element.style.transition = 'translate 0s linear';
         // Time to actually perform the action
         props.moveCard(dragIndex, hoverIndex)
 
@@ -148,15 +153,9 @@ export default class Card extends Component {
             isOver,
             id,
         } = this.props
-        const opacity = isDragging ? .6 : 1;
-        if (isDragging) {
-            // style.backgroundColor = "red";
-            // style.visibility = "hidden";
-        } else {
-            style.backgroundColor = "white"
-            // style.visibility = "visible";
-        }
+        const opacity = isDragging ? 0 : 1;
 
+        console.log('isDragging', isDragging);
         // style.transform = "translate(0,0)";
         // if (!isOver) {
         //     // style.transform = "translate(0,0)"

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import shouldPureComponentUpdate from './shouldPureComponentUpdate'
+// import shouldPureComponentUpdate from './shouldPureComponentUpdate'
 
 const styles = {
 	border: '1px dashed gray',
@@ -14,12 +14,12 @@ export default class Box extends Component {
 		yellow: PropTypes.bool,
 	}
 
-	shouldComponentUpdate = shouldPureComponentUpdate
+	// shouldComponentUpdate = shouldPureComponentUpdate
 
 	render() {
-		const { title, yellow,width,height } = this.props
+		const { title, yellow, width, height } = this.props
 		const backgroundColor = yellow ? 'yellow' : 'white';
 
-		return <div style={{ ...styles, backgroundColor,width,height }}>{title}</div>
+		return <div style={{ ...styles, backgroundColor, width, height }}>{title}</div>
 	}
 }

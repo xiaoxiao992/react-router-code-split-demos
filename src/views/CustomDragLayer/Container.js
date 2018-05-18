@@ -9,7 +9,7 @@ import snapToGrid from './snapToGrid'
 
 const styles = {
 	width: 300,
-	height: 300,
+	height: 1200,
 	border: '1px solid black',
 	position: 'relative',
 }
