@@ -5,3 +5,4 @@ dist
 dll
 _dll
 package-lock.json
+stats.json
