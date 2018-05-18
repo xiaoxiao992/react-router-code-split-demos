@@ -2,8 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 // import Loadable from 'react-loadable';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
+
+import reducers from './reducers';
 
 import 'antd/es/style/index.less';
 import './app.less';
@@ -12,6 +16,7 @@ import './app.less';
 //     Index, User
 // } from "./routers";
 import AsyncLoader from './routers/AsyncLoader';
+
 // const AsyncUser = AsyncLoader({ loader: () => import('./views/user') });
 const IndexAsync = AsyncLoader({ loader: () => import('./views/index') });
 
@@ -43,7 +48,6 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    // console.log(b);
   }
 
   componentDidMount() {
@@ -52,13 +56,15 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>
-        <Switch>
-          {/* <Route path="/user" exact={false} component={AsyncUser} /> */}
-          <Route path="/" exact={false} component={IndexAsync} />
-          <Redirect to="/" />
-        </Switch>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <Switch>
+            {/* <Route path="/user" exact={false} component={AsyncUser} /> */}
+            <Route path="/" exact={false} component={IndexAsync} />
+            <Redirect to="/" />
+          </Switch>
+        </Router>
+      </Provider>
     );
   }
 };

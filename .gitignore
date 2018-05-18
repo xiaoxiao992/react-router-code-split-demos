@@ -1,3 +1,7 @@
 node_modules
 dist
 .vscode
+.cache
+dll
+_dll
+package-lock.json

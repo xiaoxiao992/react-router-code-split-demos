@@ -1,21 +1,19 @@
-import React from 'react'
-import ReactDOM from 'react-dom';
-// import Loadable from 'react-loadable';
-import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 // import { b } from './test';
 import b from './b';
-
 // import 'antd/dist/antd.less';
 import 'antd/es/style/index.less';
+import React from 'react';
+import ReactDOM from 'react-dom';
+// import Loadable from 'react-loadable';
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 // E:\githubs\react-router-code-split-demo\node_modules\antd\es\style\index.less
 import './app.css';
 import './app.less';
-
 // import {
 //     Index, User
 // } from "./routers";
 import AsyncLoader from './routers/AsyncLoader';
-// const AsyncUser = AsyncLoader({ loader: () => import('./views/user') });
+
 const AsyncIndex = AsyncLoader({ loader: () => import('./views/index') });
 
 class App extends React.Component {
