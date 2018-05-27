@@ -2,7 +2,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import queryString from 'query-string';
 import { notification } from 'antd';
-import users from '../mock/users';
+import users, { userList } from '../mock/users';
 
 
 
@@ -61,7 +61,7 @@ const api = (url, newOptions) => {
     .then(resp => resp)
     .catch(error => {
       console.log(error);
-      throw error;
+      // throw error;
     });
 
   return _axios;
@@ -75,6 +75,7 @@ api.post = (url, newOptions) => api(url, { ...newOptions, method: 'post' });
 const mock = new MockAdapter(axiosInstance, { delayResponse: 1000 });
 
 mock.onGet('/api/users').reply(config => {
+  return [200, { code: 0, userList, 'message': '删除失败' }];
   return [200, { code: -1, users, 'message': '删除失败' }];
   return [200, { code: 0, users }];
   return [500, { message: "Incorrect user or password" }];
@@ -97,5 +98,8 @@ mock.onPost('/api/users/delete').reply(config => {
   //   return [500, { message: "Incorrect user or password" }];
   // }
 });
+mock.onGet('/api/appinfo').reply(config => {
+  return [200, { code: 0, data: { name: "myApp", title: '我的APP' } }];
+})
 
 export default api;

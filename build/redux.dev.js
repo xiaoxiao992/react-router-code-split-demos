@@ -43,7 +43,11 @@ module.exports = {
         include: [resolve('redux-demo')],
         // loader: 'babel-loader',
         use: [`happypack/loader?id=happybabel`]
-
+      },
+      {
+        test: /\.(html)$/,
+        include: [resolve('redux-demo')],
+        use: ['html-loader']
       },
       // url-loader
       {

@@ -1,13 +1,15 @@
-import React from 'react'
+import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 // import Loadable from 'react-loadable';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
+// import template from './template.html';
 
-import reducers from './reducers';
+// import reducers from './reducers';
 
 import 'antd/es/style/index.less';
 import './app.less';
@@ -15,10 +17,16 @@ import './app.less';
 // import {
 //     Index, User
 // } from "./routers";
-import AsyncLoader from './routers/AsyncLoader';
+import AsyncComponent from './routers/AsyncComponent';
+
+
 
 // const AsyncUser = AsyncLoader({ loader: () => import('./views/user') });
-const IndexAsync = AsyncLoader({ loader: () => import('./views/index') });
+const IndexAsync = AsyncComponent(() => import('./views/index'), ['app']);
+
+// import DynamicComponent from './routers/DynamicComponent';
+
+// const IndexC = DynamicComponent(() => import('./views/index'), { loader: () => import('./views/index') });
 
 const middlewares = [
   thunk,
@@ -39,19 +47,26 @@ const enhancers = [
   // ...extraEnhancers,
 ];
 
+// console.log("reducers0000", reducers);
+
 // Todo: 为了更好的 code splitting， 动态的注入 reducer。
 // Store
-const store = createStore(reducers, initialState, compose(...enhancers));
+const store = createStore(() => ({}), initialState, compose(...enhancers));
 
 
 class App extends React.Component {
 
+
+
+  static contextTypes = { store: PropTypes.object };
+
   constructor(props) {
     super(props);
+    console.log("App-context", this.context);
   }
 
   componentDidMount() {
-
+    // console.log('store', this.context)
   }
 
   render() {
