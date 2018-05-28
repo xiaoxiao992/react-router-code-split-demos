@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 // import Loadable from 'react-loadable';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+
 import { Provider, connect } from 'react-redux';
-import thunk from 'redux-thunk';
-import promiseMiddleware from 'redux-promise-middleware';
+import storeProvider from './utils/storeProvider';
+
 // import template from './template.html';
 
 // import reducers from './reducers';
@@ -21,6 +21,8 @@ import AsyncComponent from './routers/AsyncComponent';
 
 
 
+
+
 // const AsyncUser = AsyncLoader({ loader: () => import('./views/user') });
 const IndexAsync = AsyncComponent(() => import('./views/index'), ['app']);
 
@@ -28,48 +30,15 @@ const IndexAsync = AsyncComponent(() => import('./views/index'), ['app']);
 
 // const IndexC = DynamicComponent(() => import('./views/index'), { loader: () => import('./views/index') });
 
-const middlewares = [
-  thunk,
-  promiseMiddleware({ promiseTypeDelimiter: "/" }),
-  // asyncMiddleware
-];
-const initialState = {};
 
-// 启用 REDUX_DEVTOOLS
-let devtools = () => noop => noop;
-if (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION__) {
-  devtools = window.__REDUX_DEVTOOLS_EXTENSION__;
-}
+const store = storeProvider.getStore();
 
-const enhancers = [
-  applyMiddleware(...middlewares),
-  devtools(window.__REDUX_DEVTOOLS_EXTENSION__OPTIONS),
-  // ...extraEnhancers,
-];
+const mm = 90;
+// mm = 89;
 
-// console.log("reducers0000", reducers);
+// console.log('ddd', AsyncLoader(90));
 
-// Todo: 为了更好的 code splitting， 动态的注入 reducer。
-// Store
-const store = createStore(() => ({}), initialState, compose(...enhancers));
-
-const StoreProvider = (function () {
-  var instance;
-
-  function createInstance() {
-    var object = new Object("I am the instance");
-    return object;
-  }
-
-  return {
-    getInstance: function () {
-      if (!instance) {
-        instance = createInstance();
-      }
-      return instance;
-    }
-  };
-})();
+// console.log("sdfsdf", store1 === store2)
 
 
 class App extends React.Component {
@@ -80,11 +49,15 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log("App-context", this.context);
+    // console.log("App-context", this.context);
   }
 
   componentDidMount() {
     // console.log('store', this.context)
+    // SSL_OP_PKCS1_CHECK_2
+  }
+  componentWillUnmount() {
+    storeProvider.clearStore();
   }
 
   render() {
