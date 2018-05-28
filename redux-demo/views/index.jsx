@@ -6,12 +6,12 @@ import { Button } from 'antd';
 // import { createAction, createActions } from 'redux-actions';
 import actions from '../actions/app';
 
-// import AsyncComponent from '../routers/AsyncComponent';
+import AsyncComponent from '../routers/AsyncComponent';
 
 // import HTML5Backend from 'react-dnd-html5-backend';
 // import { DragDropContextProvider } from 'react-dnd';
-const mm = kkkkkkkk();
-const m = AsyncComponent();
+// const mm = kkkkkkkk();
+// const m = AsyncComponent();
 
 const UserAsync = AsyncComponent(() => import('./user'), ["app"]);
 
@@ -52,7 +52,7 @@ class HomeIndex extends React.Component {
         <p> <Link to="/user" >User</Link></p>
 
         <Switch>
-          {/* <Route path="/user" exact={false} component={UserAsync} /> */}
+          <Route path="/user" exact={false} component={UserAsync} />
         </Switch>
       </div>
     )
