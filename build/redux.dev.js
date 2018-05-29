@@ -105,7 +105,7 @@ module.exports = {
         // here you configure babel:
         options: {
           babelrc: true,
-          cacheDirectory: true
+          cacheDirectory: false
         }
       }]
     }),

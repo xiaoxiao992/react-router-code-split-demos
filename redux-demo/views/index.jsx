@@ -5,21 +5,20 @@ import { connect } from 'react-redux';
 import { Button } from 'antd';
 // import { createAction, createActions } from 'redux-actions';
 import actions from '../actions/app';
+import storeProvider from '../utils/storeProvider'
 
 import AsyncComponent from '../routers/AsyncComponent';
 
 // import HTML5Backend from 'react-dnd-html5-backend';
 // import { DragDropContextProvider } from 'react-dnd';
-// const mm = kkkkkkkk();
-// const m = AsyncComponent();
 
 const UserAsync = AsyncComponent(() => import('./user'), ["app"]);
 
 class HomeIndex extends React.Component {
 
-  // static contextTypes = {
-  //   store: PropTypes.object
-  // };
+  static contextTypes = {
+    store: PropTypes.object
+  };
 
   // static contextTypes = {
   //   store: PropTypes.object
@@ -38,7 +37,7 @@ class HomeIndex extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    // console.log("context", this.context);
+    console.log("context", this.context.store === storeProvider.getStore());
     // this.props.dispatch(actions.user.getList());
     dispatch(actions.app.getAppInfo());
 

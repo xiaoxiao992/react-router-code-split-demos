@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import { Provider, connect } from 'react-redux';
-
+import storeProvider from './utils/storeProvider';
 
 // import template from './template.html';
 
@@ -21,7 +21,8 @@ import AsyncComponent, { store } from './routers/AsyncComponent';
 
 
 
-// const AsyncUser = AsyncComponent({ loader: () => import('./views/user') });
+
+
 const IndexAsync = AsyncComponent(() => import('./views/index'), ['app']);
 
 // import DynamicComponent from './routers/DynamicComponent';
@@ -29,6 +30,11 @@ const IndexAsync = AsyncComponent(() => import('./views/index'), ['app']);
 // const IndexC = DynamicComponent(() => import('./views/index'), { loader: () => import('./views/index') });
 
 
+const store = storeProvider.getStore();
+const mm = 90;
+// mm = 89;
+// console.log('ddd', AsyncLoader(90));
+// console.log("sdfsdf", store1 === store2)
 
 
 class App extends React.Component {
@@ -39,11 +45,15 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log("App-context", this.context);
+    // console.log("App-context", this.context);
   }
 
   componentDidMount() {
     // console.log('store', this.context)
+    // SSL_OP_PKCS1_CHECK_2
+  }
+  componentWillUnmount() {
+    storeProvider.clearStore();
   }
 
   render() {
