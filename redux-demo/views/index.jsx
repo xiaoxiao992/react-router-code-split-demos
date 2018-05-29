@@ -12,7 +12,7 @@ import AsyncComponent from '../routers/AsyncComponent';
 // import HTML5Backend from 'react-dnd-html5-backend';
 // import { DragDropContextProvider } from 'react-dnd';
 
-const UserAsync = AsyncComponent(() => import('./user'), ["app"]);
+const UserAsync = AsyncComponent(() => import('./user'), ["app", 'user']);
 
 class HomeIndex extends React.Component {
 
@@ -59,10 +59,10 @@ class HomeIndex extends React.Component {
 };
 
 export default connect(state => {
-  console.log(state);
+  console.log("HomeIndex", state);
   return {
     // user: state.user,
-    // appInfo: state.app.appInfo || {}
-    appInfo: {}
+    appInfo: state.app.appInfo || {}
+    // appInfo: {}
   }
 })(HomeIndex);

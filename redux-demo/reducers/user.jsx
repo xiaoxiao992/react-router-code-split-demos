@@ -26,7 +26,7 @@ export default {
           return ({
             ...state,
             listLoading: true,
-            // appInfo: action.playload
+            // appInfo: action.payload
           });
         },
         FULFILLED: (state, action) => {
@@ -34,7 +34,7 @@ export default {
           return ({
             ...state,
             listLoading: false,
-            list: action.playload
+            list: action.payload.userList
           });
         }
       },
@@ -44,7 +44,7 @@ export default {
           return ({
             ...state,
             profileLoading: true,
-            // profile: action.playload
+            // profile: action.payload
           });
         },
         FULFILLED: (state, action) => {
@@ -52,7 +52,32 @@ export default {
           return ({
             ...state,
             profileLoading: false,
-            profile: action.playload
+            profile: action.payload
+          });
+        }
+      },
+      DELETE_USER: {
+        PENDING: (state, action) => {
+          console.log('USER/DELETE_USER/PENDING', action)
+          return ({
+            ...state,
+            deleteStatus: {
+              ...state.deleteStatus,
+              [action.meta]: true
+            },
+          });
+        },
+        FULFILLED: (state, action) => {
+          console.log('USER/DELETE_USER/FULFILLED', action.meta)
+          message.success('删除成功');
+          return ({
+            ...state,
+            deleteStatus: {
+              ...state.deleteStatus,
+              [action.meta]: false
+            },
+            // profileLoading: false,
+            // profile: action.payload
           });
         }
       }

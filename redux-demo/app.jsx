@@ -14,46 +14,27 @@ import storeProvider from './utils/storeProvider';
 import 'antd/es/style/index.less';
 import './app.less';
 
-// import {
-//     Index, User
-// } from "./routers";
-import AsyncComponent, { store } from './routers/AsyncComponent';
 
-
-
-
-
+import AsyncComponent from './routers/AsyncComponent';
 const IndexAsync = AsyncComponent(() => import('./views/index'), ['app']);
-
-// import DynamicComponent from './routers/DynamicComponent';
-
-// const IndexC = DynamicComponent(() => import('./views/index'), { loader: () => import('./views/index') });
 
 
 const store = storeProvider.getStore();
-const mm = 90;
-// mm = 89;
-// console.log('ddd', AsyncLoader(90));
-// console.log("sdfsdf", store1 === store2)
-
 
 class App extends React.Component {
-
-
 
   static contextTypes = { store: PropTypes.object };
 
   constructor(props) {
     super(props);
-    // console.log("App-context", this.context);
+
   }
 
   componentDidMount() {
     // console.log('store', this.context)
-    // SSL_OP_PKCS1_CHECK_2
   }
   componentWillUnmount() {
-    storeProvider.clearStore();
+    // storeProvider.clearStore();
   }
 
   render() {

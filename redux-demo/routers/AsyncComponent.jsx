@@ -1,225 +1,53 @@
-import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-// import { combineReducers } from 'redux';
-// import Loadable from 'react-loadable';
-import loadable from 'loadable-components';
+import React from 'react';
+import { combineReducers } from 'redux';
+import Loadable from 'react-loadable';
 import storeProvider from '../utils/storeProvider';
-// import loadable from 'loadable-components';
-import loadable, { LOADABLE, componentTracker } from 'loadable-components';
-import promiseMiddleware from 'redux-promise-middleware';
-
 
 // react-loadable 配置参数
 // 更多信息，访问： https://github.com/jamiebuilds/react-loadable#loadable
-const cached = {};
 
 
-const middlewares = [
-    thunk,
-    promiseMiddleware({ promiseTypeDelimiter: "/" }),
-    // asyncMiddleware
-];
-const initialState = {};
+export default (component, models = [], opts) => {
+  const store = storeProvider.getStore();
 
-// 启用 REDUX_DEVTOOLS
-let devtools = () => noop => noop;
-if (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION__) {
-    devtools = window.__REDUX_DEVTOOLS_EXTENSION__;
-}
+  const LoadingComponent = () => (<div>loading...</div>);
 
-const enhancers = [
-    applyMiddleware(...middlewares),
-    devtools(window.__REDUX_DEVTOOLS_EXTENSION__OPTIONS),
-    // ...extraEnhancers,
-];
+  // 找到没有缓存过的 reducer;
+  const cachedKeys = Object.keys(store.asyncReducers);
+  const noCachedModels = models.filter(m => !cachedKeys.includes(m));
+  const resolveModels = noCachedModels.map(m => import(`../reducers/${m}`));
+  //.reduce((prev, current) => ({ ...prev, ...current }), {});
 
-// console.log("reducers0000", reducers);
+  const AsyncComponent = Loadable({
+    loading: LoadingComponent,
+    loader: async () => {
 
-// Todo: 为了更好�code splitting�动态的注入 reducer�
-// Store
+      // 第一个是组件，从第二个开始是 reducer;
+      const values = await Promise.all([component(), ...resolveModels]);
 
-export const store = () => {
-    return createStore(() => {
-        console.log('090909090');
-        return {}
-    }, initialState, compose(...enhancers))
-};
+      const [{ default: LoadableComponent }] = values;
 
+      if (values.length > 1) {
+        values.slice(1)
+          .map(m => m.default)
+          .forEach(m => {
+            store.asyncReducers[m.namespace] = m.reducers;
+          });
+          console.log('store.asyncReducers', store.asyncReducers);
+        //
+        store.replaceReducer(combineReducers(store.asyncReducers));
+      }
 
+      // console.log('LoadableComponent', LoadableComponent);
 
+      return props => <LoadableComponent {...props} />
 
-export default (component, modules, opts) => {
+    },
 
-    const ErrorComponent = ({ error, ownProps }) => { console.log(error); return <div>Oops! {error.message}</div>; };
+    // timeout: 10000, // 加载模块的过期时间
+    // delay: 300,  // 加载延时
+    // ...opts
+  });
 
-    // }
-
-
-    const What = loadable(async () => {
-        const [{ default: Component }, { default: books }] = await Promise.all([
-            component(),
-            { name: '' }
-            //   import('./books.json'),
-        ])
-        console.log(store)
-
-        return props => <Component {...props} books={books} />
-    })
-
-
-    return What;
-
-    const myload = async (store) => {
-        console.log("this.store", store);
-        const [{ default: Component }, { default: Reducers }] =
-            await Promise.all([
-                component(),
-                import(`../reducers/app.jsx`)
-            ])
-
-        console.log('ss');
-
-        return props => <Component {...props} />
-
-    }
-
-    class ComponentWithStore extends React.Component {
-
-        constructor(props) {
-            super(props)
-            console.log('constructor');
-        }
-        static componentId = componentTracker.track(ComponentWithStore, [`${Math.random()}`]);
-
-        static contextTypes = {
-            store: PropTypes.object
-        };
-
-        // static load = async (store) => {
-        //     console.log("this.store", store);
-        //     const [{ default: Component }, { default: Reducers }] =
-        //         await Promise.all([
-        //             component(),
-        //             import(`../reducers/app.jsx`)
-        //         ])
-
-        //     console.log('ss');
-
-        //     return props => <Component {...props} />
-
-        // }
-        state = { Component: () => null }
-
-        static [LOADABLE] = () => {
-            console.log('thisiss', this.context)
-            return {
-                componentId: ComponentWithStore.componentId,
-                load: myload,
-            }
-        }
-
-        componentWillMount() {
-
-            const { store } = this.context;
-            // console.log('ComponentWithTranslations', LOADABLE, ComponentWithStore[LOADABLE])
-            ComponentWithStore[LOADABLE]().load(store)
-                .then(Component => this.setState({ Component }))
-        }
-
-        render() {
-            console.log("sdsd", this.state)
-            const { Component } = this.state;
-
-            return <Component />
-        }
-
-    }
-
-    return ComponentWithStore;
-
-
-
-    class ComponentWithTranslations extends React.Component {
-        // Required
-        static componentId = componentTracker.track(ComponentWithTranslations, ['./jkjmk']);
-
-        static load = async () => {
-            // const response = await fetch('/translations.json')
-            const translations = { hello: '您好' }//await response.json()
-            ComponentWithTranslations.translations = translations
-            return translations
-        }
-
-        static [LOADABLE] = () => ({
-            componentId: ComponentWithTranslations.componentId,
-            load: ComponentWithTranslations.load,
-        })
-
-        state = { translations: {} }
-
-        componentWillMount() {
-            // console.log('ComponentWithTranslations',LOADABLE, ComponentWithTranslations[LOADABLE])
-            ComponentWithTranslations[LOADABLE]().load()
-                .then(translations => this.setState({ translations }))
-        }
-
-        render() {
-            console.log(this.state)
-            const { translations: { hello = 'hello' } } = this.state;
-
-            return <div>{hello}</div>
-        }
-    }
-
-    return ComponentWithTranslations;
-
-
-
-
-
-
-            loading: (props) => {
-                console.log('loading-props', props)
-                return <div className="async-loader-loading">loading</div>
-            },
-            loader: component,
-        })
-
-    return loadable(async () => {
-
-        const reducers = modules.map(m => import(`../reducers/${m}.jsx`));
-        // console.log('dddd', `../reducers/${n}.js`);
-        // component
-        }
-
-        const results = await Promise.all([component(), ...reducers])
-            store: PropTypes.object
-        };
-
-        // console.log("books", storeProvider.getStore())
-        const [{ default: Component }] = results;
-
-        return props => <Component {...props} />
-        }
-        componentDidMount() {
-            const LoadableComponent = Loadable({
-                loading: (props) => {
-                    console.log('loading-props', props)
-                    return <div className="async-loader-loading">loading</div>
-                },
-                loader: component,
-                render: (loaded, props) => {
-                    console.log("render", loaded)
-                }
-            });
-            // console.log(<LoadableComponent />);
-            //  getAsyncComponent(store);
-        }
-
-            return <div>getAsyncComponent</div>
-            // return asyncComponent(store);
-
-    }, { ErrorComponent });
-
-
+  return AsyncComponent;
 }
