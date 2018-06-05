@@ -2,6 +2,7 @@ import React from 'react';
 import { combineReducers } from 'redux';
 import Loadable from 'react-loadable';
 import storeProvider from '../utils/storeProvider';
+import { Spin } from 'antd';
 
 // react-loadable 配置参数
 // 更多信息，访问： https://github.com/jamiebuilds/react-loadable#loadable
@@ -10,7 +11,7 @@ import storeProvider from '../utils/storeProvider';
 export default (component, models = [], opts) => {
   const store = storeProvider.getStore();
 
-  const LoadingComponent = () => (<div>loading...</div>);
+  const LoadingComponent = () => <Spin />;//(<div></div>);
 
   // 找到没有缓存过的 reducer;
   const cachedKeys = Object.keys(store.asyncReducers);
@@ -33,11 +34,11 @@ export default (component, models = [], opts) => {
           .forEach(m => {
             store.asyncReducers[m.namespace] = m.reducers;
           });
-          console.log('store.asyncReducers', store.asyncReducers);
+
         //
         store.replaceReducer(combineReducers(store.asyncReducers));
       }
-
+      console.log('store.asyncReducers', store.asyncReducers);
       // console.log('LoadableComponent', LoadableComponent);
 
       return props => <LoadableComponent {...props} />
